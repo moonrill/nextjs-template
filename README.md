@@ -45,6 +45,7 @@ Starter template Next.js yang dirancang khusus sebagai **fondasi aplikasi fronte
 | **Bahasa**                   | TypeScript 5+                  | Static typing dengan strict mode                 |
 | **Package Manager**          | pnpm 12+                       | Manajemen dependensi efisien dan terkunci        |
 | **Styling**                  | Tailwind CSS v4                | Utilitas styling modern tanpa runtime CSS        |
+| **UI Components**            | shadcn/ui                      | Komponen UI headless & accessible terintegrasi   |
 | **Schema Validation**        | Zod                            | Validasi data runtime pada batas sistem          |
 | **Unit & Component Testing** | Vitest & React Testing Library | Pengujian fungsi, logika bisnis, dan komponen UI |
 | **E2E Testing**              | Playwright                     | Smoke test browser dan verifikasi endpoint       |

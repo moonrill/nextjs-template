@@ -1,11 +1,4 @@
-/**
- * Utility to conditionally combine and filter class names.
- */
-export function cn(
-  ...classes: (string | boolean | undefined | null)[]
-): string {
-  return classes.filter(Boolean).join(" ");
-}
+export { cn } from "cn";
 
 /**
  * Format date into ISO string safely.
