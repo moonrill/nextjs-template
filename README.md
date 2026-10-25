@@ -1,6 +1,6 @@
-# Next.js Production-Ready Starter Template
+# Next.js Frontend Starter Template (Production-Ready)
 
-Starter template Next.js yang dirancang sebagai **fondasi aplikasi production yang bersih, konsisten, mudah dipelihara, dan siap dikembangkan**. Dibangun dengan prinsip minimal dependencies dan memanfaatkan kapabilitas bawaan Next.js App Router secara optimal.
+Starter template Next.js yang dirancang khusus sebagai **fondasi aplikasi frontend modern yang bersih, konsisten, mudah dipelihara, dan siap diintegrasikan dengan backend eksternal (seperti NestJS atau Go)**. Proyek ini tidak memuat service API internal di Next.js, melainkan murni fokus pada arsitektur antarmuka pengguna (UI/UX), rendering, dan performa client-side/server-side.
 
 ---
 
@@ -137,8 +137,7 @@ Konfigurasi disimpan di `.env.local` dan didefinisikan pada `.env.example`:
 ├── public/                      # Aset statis publik
 │   └── images/
 ├── src/
-│   ├── app/                     # Next.js App Router
-│   │   ├── api/health/          # Endpoint Route Handler /api/health
+│   ├── app/                     # Next.js App Router (UI Only)
 │   │   ├── error.tsx            # Error boundary halaman
 │   │   ├── global-error.tsx     # Error boundary root layout
 │   │   ├── not-found.tsx        # Halaman 404
@@ -176,7 +175,7 @@ Konfigurasi disimpan di `.env.local` dan didefinisikan pada `.env.example`:
 ├── next.config.ts
 ├── package.json
 ├── tsconfig.json
-└── vitest.config.ts
+└── vitest.config.mts
 ```
 
 ---
@@ -241,7 +240,7 @@ Sebelum merilis aplikasi berbasis template ini ke lingkungan produksi, pastikan:
 - [ ] Seluruh environment variables telah dikonfigurasi pada hosting/server dan lolos validasi `src/lib/env.ts`.
 - [ ] Pemeriksaan menyeluruh `pnpm check` berhasil 100% tanpa error atau warning kritis.
 - [ ] Production build `pnpm build` menghasilkan artefak standalone yang valid.
-- [ ] Endpoint `/api/health` merespons dengan status 200 dan payload JSON.
+- [ ] Halaman utama, layout navigasi, dan error boundaries berfungsi dengan baik.
 - [ ] Header keamanan pada `next.config.ts` telah diverifikasi sesuai kebutuhan aplikasi.
 - [ ] Tidak ada kunci rahasia atau file kredensial yang masuk ke riwayat Git.
 

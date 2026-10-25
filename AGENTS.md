@@ -14,14 +14,15 @@ Dokumen ini adalah **sumber acuan utama (single source of truth)** untuk standar
 
 ---
 
-## 1. Arsitektur & Struktur Folder
+## 1. Arsitektur & Struktur Folder (Frontend-Only)
 
-Aplikasi menggunakan **Feature-Based Architecture** dengan konvensi Next.js App Router di bawah direktori `src/`:
+Template ini dirancang **khusus sebagai Frontend (Frontend-Only)**, bukan fullstack. Seluruh kebutuhan backend, database, dan business logic tingkat server dilayani oleh service backend eksternal (misalnya NestJS atau Go).
+
+Next.js pada template ini **tidak menyediakan Route Handlers atau API services internal** (`src/app/api`). Pengambilan data dilakukan langsung dari Server Components atau client services ke API backend eksternal menggunakan `API_BASE_URL` atau `NEXT_PUBLIC_APP_URL`.
 
 ```text
 src/
-├── app/                  # Routing, Layouts, Server Pages, Route Handlers, Error Boundaries
-│   ├── api/health/       # Endpoint pemantauan kesiapan sistem (Route Handler)
+├── app/                  # Routing, Layouts, Server Pages, Error Boundaries (UI Only)
 │   ├── error.tsx         # Boundary penanganan error tingkat route segment
 │   ├── global-error.tsx  # Fallback penanganan error fatal pada root layout
 │   ├── not-found.tsx     # Tampilan halaman 404
@@ -36,7 +37,7 @@ src/
 │   └── [feature-name]/   # Contoh: `example/`
 │       ├── components/   # Komponen visual yang spesifik untuk fitur ini
 │       ├── schemas/      # Schema validasi Zod untuk entitas/input fitur
-│       ├── services/     # Logika bisnis dan pemanggilan data/API
+│       ├── services/     # Logika pemanggilan data dari API backend eksternal
 │       ├── types/        # TypeScript types & interfaces khusus fitur
 │       └── index.ts      # Barrel export antarmuka publik modul
 ├── lib/                  # Utilitas global dan konfigurasi infrastruktur
@@ -108,7 +109,7 @@ src/
 
 - **Unit Testing (Vitest)**: Uji logika murni, utilitas (`src/lib/`), schema Zod, dan method services secara terisolasi.
 - **Component Testing (React Testing Library)**: Uji perilaku UI berdasarkan apa yang dialami pengguna (accessible role, text content), hindari menguji implementasi internal (state internals).
-- **E2E Smoke Testing (Playwright)**: Verifikasi bahwa aplikasi dapat berjalan, halaman utama merespons tanpa error runtime fatal, dan endpoint `/api/health` merespons dengan HTTP 200.
+- **E2E Smoke Testing (Playwright)**: Verifikasi bahwa aplikasi dapat berjalan, halaman utama merespons tanpa error runtime fatal, dan elemen visual antarmuka ter-render dengan sempurna.
 
 ---
 

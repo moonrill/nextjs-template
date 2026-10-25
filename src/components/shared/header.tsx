@@ -10,24 +10,14 @@ export function Header() {
             N
           </div>
           <span className="font-semibold tracking-tight text-zinc-900 dark:text-zinc-100">
-            Next.js Starter
+            Next.js Frontend Starter
           </span>
         </Link>
 
-        <div className="flex items-center gap-4">
-          <Link
-            href="/api/health"
-            target="_blank"
-            className="flex items-center gap-1.5"
-          >
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
-            </span>
-            <span className="text-xs font-medium text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-200">
-              API Health
-            </span>
-          </Link>
+        <div className="flex items-center gap-2">
+          <Badge variant="outline" className="text-xs">
+            Frontend Only
+          </Badge>
           <Badge variant="success">v1.0.0</Badge>
         </div>
       </div>

@@ -1,7 +1,6 @@
 import { getStarterFeatures } from "@/features/example";
 import { ExampleCard } from "@/features/example";
 import { Badge } from "@/components/ui/badge";
-import Link from "next/link";
 
 export default async function HomePage() {
   const features = await getStarterFeatures();
@@ -14,30 +13,33 @@ export default async function HomePage() {
           variant="outline"
           className="border-zinc-300 dark:border-zinc-700"
         >
-          Production-Ready Template v1.0
+          Frontend Starter v1.0
         </Badge>
         <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-50">
-          Fondasi Next.js yang Tangguh, Bersih, dan Teruji
+          Next.js Frontend Starter yang Tangguh & Terstruktur
         </h1>
         <p className="max-w-2xl text-base text-zinc-600 sm:text-lg dark:text-zinc-400">
-          Template starter Next.js dengan App Router, TypeScript strict mode,
-          arsitektur berbasis fitur, validasi schema Zod, pengujian otomatis,
-          dan multi-stage Docker build.
+          Template khusus <strong>frontend</strong> menggunakan Next.js App
+          Router, TypeScript strict mode, Tailwind CSS v4, arsitektur berbasis
+          fitur, dan multi-stage Docker build. Siap diintegrasikan dengan
+          backend eksternal seperti NestJS atau Go.
         </p>
         <div className="mt-2 flex flex-wrap gap-3">
-          <Link
-            href="/api/health"
-            className="rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-zinc-800 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
-          >
-            Cek Health Endpoint
-          </Link>
           <a
             href="https://nextjs.org/docs"
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-lg border border-zinc-300 px-4 py-2.5 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+            className="rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-zinc-800 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
           >
             Dokumentasi Next.js
+          </a>
+          <a
+            href="https://tailwindcss.com/docs"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-lg border border-zinc-300 px-4 py-2.5 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+          >
+            Dokumentasi Tailwind CSS
           </a>
         </div>
       </div>
@@ -49,7 +51,7 @@ export default async function HomePage() {
             Arsitektur & Pilar Utama
           </h2>
           <p className="text-sm text-zinc-500 dark:text-zinc-400">
-            Contoh implementasi modul terisolasi di{" "}
+            Contoh implementasi modul fitur terisolasi di{" "}
             <code className="rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-xs text-zinc-800 dark:bg-zinc-800 dark:text-zinc-200">
               src/features/example
             </code>
@@ -71,7 +73,7 @@ export default async function HomePage() {
         <div className="mt-4 grid gap-4 sm:grid-cols-3">
           <div className="rounded-lg border border-zinc-100 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-900">
             <h3 className="font-medium text-zinc-900 dark:text-zinc-200">
-              Code Quality
+              Frontend Clean Code
             </h3>
             <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">
               ESLint 9, Prettier formatting, dan TypeScript strict mode dengan
@@ -83,17 +85,17 @@ export default async function HomePage() {
               Automated Testing
             </h3>
             <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">
-              Vitest untuk unit tests, React Testing Library untuk komponen, dan
-              Playwright untuk E2E smoke tests.
+              Vitest untuk unit tests, React Testing Library untuk komponen UI,
+              dan Playwright untuk E2E smoke tests.
             </p>
           </div>
           <div className="rounded-lg border border-zinc-100 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-900">
             <h3 className="font-medium text-zinc-900 dark:text-zinc-200">
-              Production Container
+              Standalone Container
             </h3>
             <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">
               Multi-stage Dockerfile dengan standalone output dan runtime
-              non-root user.
+              non-root user yang efisien.
             </p>
           </div>
         </div>
