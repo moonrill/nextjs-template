@@ -4,34 +4,34 @@ import type { FeatureFilterOptions } from "../types/example.types";
 const STARTER_FEATURES: FeatureItem[] = [
   {
     id: "feat-1",
-    title: "App Router & TypeScript Strict",
+    title: "App Router & Strict TypeScript",
     description:
-      "Struktur modular Next.js App Router dengan type safety penuh dan strict checking.",
+      "Struktur modular Next.js App Router dengan type safety penuh dan noUncheckedIndexedAccess.",
     category: "architecture",
     status: "ready",
   },
   {
     id: "feat-2",
-    title: "Zod Schema & Env Validation",
+    title: "React Hook Form & Zod",
     description:
-      "Validasi fail-fast untuk konfigurasi runtime dan data pada batas sistem.",
+      "Pengelolaan form terstruktur dengan validasi schema Zod dan fail-fast validation.",
     category: "security",
     status: "ready",
   },
   {
     id: "feat-3",
-    title: "Vitest, Testing Library & Playwright",
+    title: "TanStack Query & TanStack Table",
     description:
-      "Pengujian unit, komponen, dan E2E smoke tests yang cepat serta terisolasi.",
-    category: "testing",
+      "Server state management, caching otomatis, dan tabel data performa tinggi.",
+    category: "performance",
     status: "ready",
   },
   {
     id: "feat-4",
-    title: "Structured JSON Logger",
+    title: "API Client & Sonner Toasts",
     description:
-      "Pencatatan log terstruktur dengan sanitasi otomatis untuk kunci sensitif.",
-    category: "performance",
+      "Wrapper native fetch terpusat untuk integrasi backend dan notifikasi toast modern.",
+    category: "testing",
     status: "ready",
   },
 ];

@@ -1,6 +1,6 @@
-# Next.js Frontend Starter Template (Production-Ready)
+# Next.js Production-Ready Starter Template — Business Profile
 
-Starter template Next.js yang dirancang khusus sebagai **fondasi aplikasi frontend modern yang bersih, konsisten, mudah dipelihara, dan siap diintegrasikan dengan backend eksternal (seperti NestJS atau Go)**. Proyek ini tidak memuat service API internal di Next.js, melainkan murni fokus pada arsitektur antarmuka pengguna (UI/UX), rendering, dan performa client-side/server-side.
+Starter template Next.js khusus frontend dengan **Profil Business** yang dirancang untuk **aplikasi bisnis, dashboard, CRUD, dan interaksi API intensif**. Mengutamakan performa, arsitektur bersih, validasi ketat, pengelolaan state server, dan integrasi backend tanpa dependensi yang berlebihan.
 
 ---
 
@@ -27,6 +27,11 @@ Starter template Next.js yang dirancang khusus sebagai **fondasi aplikasi fronte
 - **Next.js App Router & Server Components**: Arsitektur rendering modern dengan pemisahan tegas antara Server Components dan Client Components.
 - **Strict Type Safety**: TypeScript dengan mode ketat (`strict: true`, `noUncheckedIndexedAccess: true`, `exactOptionalPropertyTypes: true`).
 - **Feature-Based Architecture**: Pengelompokan kode berdasarkan domain fitur (`schemas`, `services`, `components`, `types`) untuk skalabilitas jangka panjang.
+- **Form Management & Schema Validation**: **React Hook Form** terintegrasi dengan **Zod** melalui `@hookform/resolvers`.
+- **Server State & Caching**: **TanStack Query** (React Query) untuk fetching, caching, revalidation, dan background sync.
+- **High-Performance Data Tables**: **TanStack Table** siap pakai untuk sorting, filtering, dan pagination tabel data kompleks.
+- **Modern Toast Notifications**: **Sonner** untuk notifikasi toast yang mulus dan elegan.
+- **Centralized Native Fetch Client**: Wrapper `apiClient` dengan timeout, error handling terpusat, dan validasi Zod otomatis.
 - **Fail-Fast Environment Validation**: Validasi runtime variabel lingkungan menggunakan **Zod** sebelum aplikasi berjalan.
 - **Structured JSON Logging**: Logger terstruktur dengan sanitasi otomatis untuk mencegah kebocoran kredensial atau token sensitif.
 - **Security Baseline**: Konfigurasi header keamanan HTTP bawaan (`X-Frame-Options`, `HSTS`, `CSP`, `nosniff`, `Permissions-Policy`).
@@ -36,7 +41,7 @@ Starter template Next.js yang dirancang khusus sebagai **fondasi aplikasi fronte
 
 ---
 
-## Tech Stack
+## Tech Stack (Profil Business)
 
 | Kategori                     | Teknologi                      | Deskripsi                                        |
 | ---------------------------- | ------------------------------ | ------------------------------------------------ |
@@ -46,9 +51,14 @@ Starter template Next.js yang dirancang khusus sebagai **fondasi aplikasi fronte
 | **Package Manager**          | pnpm 12+                       | Manajemen dependensi efisien dan terkunci        |
 | **Styling**                  | Tailwind CSS v4                | Utilitas styling modern tanpa runtime CSS        |
 | **UI Components**            | shadcn/ui                      | Komponen UI headless & accessible terintegrasi   |
-| **Schema Validation**        | Zod                            | Validasi data runtime pada batas sistem          |
+| **Form Management**          | React Hook Form                | Pengelolaan state form berkinerja tinggi         |
+| **Schema Validation**        | Zod + `@hookform/resolvers`    | Validasi form dan data runtime pada batas sistem |
+| **Server State & Caching**   | TanStack Query (React Query)   | Manajemen fetching, cache, dan sinkronisasi data |
+| **Data Table**               | TanStack Table                 | Pengaturan headless data table & pagination      |
+| **Toast Notifications**      | Sonner                         | Notifikasi toast modern & ringan                 |
+| **Icons**                    | Lucide React                   | Icon library modern dan ringan                   |
 | **Unit & Component Testing** | Vitest & React Testing Library | Pengujian fungsi, logika bisnis, dan komponen UI |
-| **E2E Testing**              | Playwright                     | Smoke test browser dan verifikasi endpoint       |
+| **E2E Testing**              | Playwright                     | Smoke test browser dan verifikasi antarmuka      |
 | **Linting & Formatting**     | ESLint 9 & Prettier            | Deteksi isu kode dan penyeragaman format         |
 | **Container**                | Docker                         | Multi-stage build standalone runtime             |
 | **CI/CD**                    | GitHub Actions                 | Pipeline otomasi pengujian kualitas kode         |

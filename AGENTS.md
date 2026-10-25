@@ -88,9 +88,13 @@ src/
 
 ---
 
-## 5. Validasi Data & Penanganan Error
+## 5. Validasi Data, Form, & Integrasi API (Business Profile)
 
 - **Validasi di Batas Sistem**: Semua input eksternal (Environment Variables, URL parameters, query search, request bodies) **wajib divalidasi dengan Zod** sebelum diproses oleh domain logic.
+- **Pengelolaan Form**: Gunakan **React Hook Form** bersama **Zod Resolver** (`@hookform/resolvers/zod`) untuk mengelola form input, error validation, dan submit handler secara deklaratif dan type-safe.
+- **Client & Server State**: Gunakan **TanStack Query** (`@tanstack/react-query`) untuk mengelola data fetching, caching, background refetching, dan optimasi mutations di sisi client.
+- **Komunikasi Backend**: Gunakan wrapper `apiClient` (`src/lib/api-client.ts`) berbasis native `fetch` untuk seluruh pemanggilan HTTP upstream ke NestJS/Go. Mengatur base URL, timeout, error parsing, dan validasi schema Zod secara otomatis.
+- **Notifikasi Toast**: Gunakan **Sonner** (`toast.success()`, `toast.error()`) untuk memberikan umpan balik aksi pengguna.
 - **Fail-Fast Environment**: Aplikasi harus menolak booting jika environment variable wajib tidak valid atau hilang (`src/lib/env.ts`).
 - **Penyembunyian Detail Internal**: Pesan error yang diekspos ke client/user harus bersifat umum dan aman. Dilarang menampilkan stack trace, kredensial, atau detail query database ke antarmuka pengguna production.
 - **Structured Logging**: Gunakan `logger` dari `src/lib/logger.ts` untuk mencatat error dan aktivitas penting. Sanitasi otomatis aktif untuk mencegah token, password, atau authorization header bocor ke file log. Dilarang mengandalkan `console.log()` ad-hoc di kode production.
