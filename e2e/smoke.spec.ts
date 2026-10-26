@@ -15,7 +15,11 @@ test.describe("Frontend Smoke Tests", () => {
 
   test("navigation header and branding should render", async ({ page }) => {
     await page.goto("/");
-    await expect(page.getByText("Next.js Frontend Starter")).toBeVisible();
-    await expect(page.getByText("Frontend Only")).toBeVisible();
+    const header = page.getByRole("banner");
+    await expect(header).toBeVisible();
+    await expect(
+      header.getByText("Next.js Frontend Starter", { exact: true })
+    ).toBeVisible();
+    await expect(header.getByText("Frontend Only")).toBeVisible();
   });
 });
