@@ -1,6 +1,15 @@
+import type { Metadata } from "next";
 import { getStarterFeatures } from "@/features/example";
 import { ExampleCard } from "@/features/example";
 import { Badge } from "@/components/ui/badge";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { constructMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = constructMetadata({
+  title: "Frontend Starter Terstruktur & Siap Produksi",
+  description:
+    "Template frontend Next.js App Router dengan TypeScript strict mode, Tailwind CSS v4, arsitektur berbasis fitur, dan performa tinggi.",
+});
 
 export default async function HomePage() {
   const features = await getStarterFeatures();
@@ -9,12 +18,20 @@ export default async function HomePage() {
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
       {/* Hero Section */}
       <div className="flex flex-col items-start gap-4 text-left">
-        <Badge
-          variant="outline"
-          className="border-zinc-300 dark:border-zinc-700"
-        >
-          Frontend Starter v1.0
-        </Badge>
+        <div className="flex w-full flex-wrap items-center justify-between gap-4">
+          <Badge
+            variant="outline"
+            className="border-zinc-300 dark:border-zinc-700"
+          >
+            Frontend Starter v1.0
+          </Badge>
+          <div className="flex items-center gap-2.5 rounded-full border border-zinc-200 bg-white/80 px-3 py-1 shadow-xs backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/80">
+            <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">
+              Mode Tampilan
+            </span>
+            <ThemeToggle variant="switch" />
+          </div>
+        </div>
         <h1 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-5xl dark:text-zinc-50">
           Next.js Frontend Starter yang Tangguh & Terstruktur
         </h1>

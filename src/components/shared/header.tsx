@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 export function Header() {
   return (
@@ -15,10 +16,13 @@ export function Header() {
         </Link>
 
         <div className="flex items-center gap-2">
-          <Badge variant="outline" className="text-xs">
+          <Badge variant="outline" className="text-xs hidden sm:inline-flex">
             Frontend Only
           </Badge>
           <Badge variant="success">v1.0.0</Badge>
+          <div className="ml-1 pl-2 border-l border-zinc-200 dark:border-zinc-800">
+            <ThemeToggle variant="button" />
+          </div>
         </div>
       </div>
     </header>
