@@ -35,7 +35,7 @@ Starter template Next.js khusus frontend dengan **Profil Business** yang diranca
 - **Fail-Fast Environment Validation**: Validasi runtime variabel lingkungan menggunakan **Zod** sebelum aplikasi berjalan.
 - **Structured JSON Logging**: Logger terstruktur dengan sanitasi otomatis untuk mencegah kebocoran kredensial atau token sensitif.
 - **Security Baseline**: Konfigurasi header keamanan HTTP bawaan (`X-Frame-Options`, `HSTS`, `CSP`, `nosniff`, `Permissions-Policy`).
-- **3-Layer Automated Testing**: Pengujian terintegrasi dengan Vitest (unit), React Testing Library (komponen), dan Playwright (E2E smoke test).
+- **Automated Testing**: Pengujian terintegrasi dengan Vitest (unit tests) dan React Testing Library (komponen UI).
 - **Multi-Stage Dockerfile**: Image container minimal dan aman dengan output `standalone` serta eksekusi di bawah user non-root (`nextjs`).
 - **Automated CI Workflow**: GitHub Actions untuk verifikasi format, linting, typecheck, test, dan build secara otomatis.
 
@@ -58,7 +58,6 @@ Starter template Next.js khusus frontend dengan **Profil Business** yang diranca
 | **Toast Notifications**      | Sonner                         | Notifikasi toast modern & ringan                 |
 | **Icons**                    | Lucide React                   | Icon library modern dan ringan                   |
 | **Unit & Component Testing** | Vitest & React Testing Library | Pengujian fungsi, logika bisnis, dan komponen UI |
-| **E2E Testing**              | Playwright                     | Smoke test browser dan verifikasi antarmuka      |
 | **Linting & Formatting**     | ESLint 9 & Prettier            | Deteksi isu kode dan penyeragaman format         |
 | **Container**                | Docker                         | Multi-stage build standalone runtime             |
 | **CI/CD**                    | GitHub Actions                 | Pipeline otomasi pengujian kualitas kode         |
@@ -135,7 +134,6 @@ Konfigurasi disimpan di `.env.local` dan didefinisikan pada `.env.example`:
 | `pnpm test`          | Menjalankan unit dan component tests via Vitest                    |
 | `pnpm test:watch`    | Menjalankan Vitest dalam mode interaktif watch                     |
 | `pnpm test:coverage` | Menghasilkan laporan cakupan kode pengujian                        |
-| `pnpm test:e2e`      | Menjalankan pengujian browser via Playwright                       |
 | `pnpm check`         | Menjalankan format check, lint, typecheck, dan unit test sekaligus |
 
 ---
@@ -174,8 +172,6 @@ Konfigurasi disimpan di `.env.local` dan didefinisikan pada `.env.example`:
 │   └── test/                    # Pengujian helper & setup
 │       ├── setup.ts             # Setup Vitest matchers
 │       └── helpers/             # Test render helpers
-├── e2e/
-│   └── smoke.spec.ts            # Playwright smoke test
 ├── .dockerignore
 ├── .env.example
 ├── .gitignore
@@ -224,10 +220,13 @@ Header keamanan dikonfigurasi secara deklaratif di `next.config.ts`:
 
 ## Pengujian & CI Pipeline
 
-Workflow GitHub Actions (`.github/workflows/ci.yml`) menjalankan dua job terpisah di runtime **Node.js 24**:
+Workflow GitHub Actions (`.github/workflows/ci.yml`) menjalankan job pemeriksaan kualitas kode secara otomatis di runtime **Node.js 24**:
 
-1. **Job `validate`**: Memeriksa `format:check`, `lint`, `typecheck`, `test` (Vitest), dan `build`.
-2. **Job `e2e`**: Memasang browser Chromium dan menjalankan Playwright smoke test.
+- **Format Check**: Memeriksa kerapian kode (`pnpm format:check`).
+- **Lint**: Analisis kode statis (`pnpm lint`).
+- **Typecheck**: Validasi kompilasi TypeScript (`pnpm typecheck`).
+- **Unit & Component Tests**: Pengujian logika murni dan komponen via Vitest & React Testing Library (`pnpm test`).
+- **Production Build**: Memastikan aplikasi dapat dikompilasi ke standalone bundle (`pnpm build`).
 
 ### Unit & Component Testing (Vitest)
 
@@ -237,16 +236,9 @@ pnpm test
 
 # Menjalankan test dalam mode watch saat pengembangan
 pnpm test:watch
-```
 
-### End-to-End Testing (Playwright)
-
-```bash
-# Pasang browser Playwright (hanya dijalankan pertama kali)
-pnpm exec playwright install --with-deps chromium
-
-# Jalankan smoke test
-pnpm test:e2e
+# Menjalankan test dengan laporan cakupan (coverage)
+pnpm test:coverage
 ```
 
 ---
@@ -278,7 +270,7 @@ Sebelum merilis aplikasi berbasis template ini ke lingkungan produksi, pastikan:
 
 - [ ] Seluruh environment variables (`NEXT_PUBLIC_API_URL`, `API_BASE_URL`, `NEXT_PUBLIC_APP_URL`) telah dikonfigurasi pada server hosting dan lolos validasi `src/lib/env.ts`.
 - [ ] Pemeriksaan menyeluruh `pnpm check` berhasil 100% tanpa error atau warning kritis.
-- [ ] E2E smoke tests `pnpm test:e2e` berhasil dijalankan.
+- [ ] Unit dan component tests `pnpm test` berhasil dijalankan.
 - [ ] Production build `pnpm build` menghasilkan artefak standalone yang valid.
 - [ ] Halaman utama, layout navigasi, dan error boundaries berfungsi dengan baik.
 - [ ] Header keamanan pada `next.config.ts` telah diverifikasi sesuai kebutuhan aplikasi.
@@ -290,7 +282,6 @@ Sebelum merilis aplikasi berbasis template ini ke lingkungan produksi, pastikan:
 
 - **Error validasi env saat startup**: Periksa apakah nilai `API_BASE_URL`, `NEXT_PUBLIC_API_URL`, dan `NEXT_PUBLIC_APP_URL` merupakan format URL yang valid (e.g. `http://...`).
 - **Module not found `@/...`**: Pastikan `tsconfig.json` memiliki pemetaan path `"@/*": ["./src/*"]`.
-- **Playwright gagal menjalankan browser**: Jalankan `pnpm exec playwright install chromium`.
 
 ---
 

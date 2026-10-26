@@ -212,9 +212,6 @@ importers:
         specifier: ^4.6.7
         version: 4.6.7
     devDependencies:
-      '@playwright/test':
-        specifier: ^1.64.1
-        version: 1.64.1
       '@tailwindcss/turbopack':
         specifier: ^4
         version: 4.3.3
@@ -4462,6 +4459,7 @@ snapshots:
   '@playwright/test@1.64.1':
     dependencies:
       playwright: 1.64.1
+    optional: true
 
   '@rolldown/binding-android-arm-eabi@1.2.15':
     optional: true
@@ -6635,11 +6633,13 @@ snapshots:
     dependencies:
       find-up: 3.0.0
 
-  playwright-core@1.64.1: {}
+  playwright-core@1.64.1:
+    optional: true
 
   playwright@1.64.1:
     dependencies:
       playwright-core: 1.64.1
+    optional: true
 
   possible-typed-array-names@1.1.0: {}
 

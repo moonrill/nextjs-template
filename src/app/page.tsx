@@ -85,8 +85,8 @@ export default async function HomePage() {
               Automated Testing
             </h3>
             <p className="mt-1 text-xs text-zinc-600 dark:text-zinc-400">
-              Vitest untuk unit tests, React Testing Library untuk komponen UI,
-              dan Playwright untuk E2E smoke tests.
+              Vitest untuk unit tests dan React Testing Library untuk pengujian
+              komponen antarmuka pengguna.
             </p>
           </div>
           <div className="rounded-lg border border-zinc-100 bg-zinc-50 p-4 dark:border-zinc-800 dark:bg-zinc-900">

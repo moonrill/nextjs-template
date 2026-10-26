@@ -113,7 +113,6 @@ src/
 
 - **Unit Testing (Vitest)**: Uji logika murni, utilitas (`src/lib/`), schema Zod, dan method services secara terisolasi.
 - **Component Testing (React Testing Library)**: Uji perilaku UI berdasarkan apa yang dialami pengguna (accessible role, text content), hindari menguji implementasi internal (state internals).
-- **E2E Smoke Testing (Playwright)**: Verifikasi bahwa aplikasi dapat berjalan, halaman utama merespons tanpa error runtime fatal, dan elemen visual antarmuka ter-render dengan sempurna.
 
 ---
 
