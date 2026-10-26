@@ -67,7 +67,7 @@ Starter template Next.js khusus frontend dengan **Profil Business** yang diranca
 
 ## Kebutuhan Sistem
 
-- **Node.js**: Versi `^20.x` atau `^22.x` / `^24.x` (LTS disarankan)
+- **Node.js**: Versi `24.x` (Default yang digunakan di Docker & CI workflow, minimum `^20.x`)
 - **pnpm**: Versi `12.x` (atau aktifkan via Corepack: `corepack enable`)
 - **Docker**: Opsional (hanya jika menjalankan container lokal)
 
@@ -108,11 +108,12 @@ Buka [http://localhost:3000](http://localhost:3000) pada browser Anda.
 
 Konfigurasi disimpan di `.env.local` dan didefinisikan pada `.env.example`:
 
-| Variabel              | Tipe | Akses           | Deskripsi                           | Default Contoh          |
-| --------------------- | ---- | --------------- | ----------------------------------- | ----------------------- |
-| `NODE_ENV`            | Enum | Server          | Mode eksekusi aplikasi              | `development`           |
-| `NEXT_PUBLIC_APP_URL` | URL  | Client & Server | URL dasar aplikasi frontend         | `http://localhost:3000` |
-| `API_BASE_URL`        | URL  | Server-only     | URL endpoint backend / upstream API | `http://localhost:4000` |
+| Variabel              | Tipe | Akses           | Deskripsi                                             | Default Contoh          |
+| --------------------- | ---- | --------------- | ----------------------------------------------------- | ----------------------- |
+| `NODE_ENV`            | Enum | Server          | Mode eksekusi aplikasi                                | `development`           |
+| `NEXT_PUBLIC_APP_URL` | URL  | Client & Server | URL dasar aplikasi frontend                           | `http://localhost:3000` |
+| `NEXT_PUBLIC_API_URL` | URL  | Client & Server | URL backend API untuk request dari browser/client     | `http://localhost:4000` |
+| `API_BASE_URL`        | URL  | Server-only     | URL upstream backend API untuk Server-side Components | `http://localhost:4000` |
 
 > [!IMPORTANT]
 > Jangan pernah menambahkan kredensial atau rahasia ke variabel dengan prefiks `NEXT_PUBLIC_`, karena nilai tersebut akan dibundel ke kode JavaScript yang dikirim ke browser.
@@ -197,9 +198,36 @@ Seluruh standar pengembangan, konvensi penamaan, dan kebijakan dependensi dirang
 
 Dokumen tersebut menjadi acuan tunggal bagi software engineer maupun AI agent saat melakukan refactoring atau menambahkan fitur baru.
 
+## Integrasi API Backend
+
+Aplikasi menggunakan wrapper native `fetch` terpusat melalui `apiClient` (`src/lib/api-client.ts`):
+
+- **Resolusi Base URL Otomatis**: Memilih `API_BASE_URL` saat berjalan di server (Server Components) dan `NEXT_PUBLIC_API_URL` saat berjalan di browser (Client Components & TanStack Query).
+- **Lifecycle Timeout**: Timeout default 10 detik via `AbortController` dengan pembersihan timer otomatis di blok `finally`.
+- **Single-Read Body Parsing**: Stream response dibaca sekali sebagai teks dengan parsing JSON yang aman, mendukung respons teks biasa maupun HTTP 204 No Content.
+- **Validasi Schema Zod**: Menerima opsi `schema` untuk validasi otomatis payload response di batas sistem.
+
 ---
 
-## Pengujian
+## Keamanan & Security Headers
+
+Header keamanan dikonfigurasi secara deklaratif di `next.config.ts`:
+
+- **Content-Security-Policy (CSP)**: Mengatur whitelist sumber script, style, image, font, dan koneksi API.
+- **Strict-Transport-Security (HSTS)**: `max-age=31536000; includeSubDomains` (1 tahun).
+- **X-Frame-Options**: `DENY` untuk mencegah clickjacking.
+- **X-Content-Type-Options**: `nosniff` untuk mencegah MIME type sniffing.
+- **Referrer-Policy**: `origin-when-cross-origin`.
+- **Permissions-Policy**: Menonaktifkan camera, microphone, geolocation secara default.
+
+---
+
+## Pengujian & CI Pipeline
+
+Workflow GitHub Actions (`.github/workflows/ci.yml`) menjalankan dua job terpisah di runtime **Node.js 24**:
+
+1. **Job `validate`**: Memeriksa `format:check`, `lint`, `typecheck`, `test` (Vitest), dan `build`.
+2. **Job `e2e`**: Memasang browser Chromium dan menjalankan Playwright smoke test.
 
 ### Unit & Component Testing (Vitest)
 
@@ -235,7 +263,7 @@ pnpm start
 ### Build & Jalankan Docker Container
 
 ```bash
-# Membangun image container
+# Membangun image container dengan Node 24 Alpine
 docker build -t nextjs-starter:latest .
 
 # Menjalankan container di port 3000
@@ -248,8 +276,9 @@ docker run -p 3000:3000 --env-file .env.local nextjs-starter:latest
 
 Sebelum merilis aplikasi berbasis template ini ke lingkungan produksi, pastikan:
 
-- [ ] Seluruh environment variables telah dikonfigurasi pada hosting/server dan lolos validasi `src/lib/env.ts`.
+- [ ] Seluruh environment variables (`NEXT_PUBLIC_API_URL`, `API_BASE_URL`, `NEXT_PUBLIC_APP_URL`) telah dikonfigurasi pada server hosting dan lolos validasi `src/lib/env.ts`.
 - [ ] Pemeriksaan menyeluruh `pnpm check` berhasil 100% tanpa error atau warning kritis.
+- [ ] E2E smoke tests `pnpm test:e2e` berhasil dijalankan.
 - [ ] Production build `pnpm build` menghasilkan artefak standalone yang valid.
 - [ ] Halaman utama, layout navigasi, dan error boundaries berfungsi dengan baik.
 - [ ] Header keamanan pada `next.config.ts` telah diverifikasi sesuai kebutuhan aplikasi.
@@ -259,7 +288,7 @@ Sebelum merilis aplikasi berbasis template ini ke lingkungan produksi, pastikan:
 
 ## Troubleshooting
 
-- **Error validasi env saat startup**: Periksa apakah nilai `API_BASE_URL` dan `NEXT_PUBLIC_APP_URL` merupakan format URL yang valid (e.g. `http://...`).
+- **Error validasi env saat startup**: Periksa apakah nilai `API_BASE_URL`, `NEXT_PUBLIC_API_URL`, dan `NEXT_PUBLIC_APP_URL` merupakan format URL yang valid (e.g. `http://...`).
 - **Module not found `@/...`**: Pastikan `tsconfig.json` memiliki pemetaan path `"@/*": ["./src/*"]`.
 - **Playwright gagal menjalankan browser**: Jalankan `pnpm exec playwright install chromium`.
 

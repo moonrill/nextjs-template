@@ -18,7 +18,7 @@ Dokumen ini adalah **sumber acuan utama (single source of truth)** untuk standar
 
 Template ini dirancang **khusus sebagai Frontend (Frontend-Only)**, bukan fullstack. Seluruh kebutuhan backend, database, dan business logic tingkat server dilayani oleh service backend eksternal (misalnya NestJS atau Go).
 
-Next.js pada template ini **tidak menyediakan Route Handlers atau API services internal** (`src/app/api`). Pengambilan data dilakukan langsung dari Server Components atau client services ke API backend eksternal menggunakan `API_BASE_URL` atau `NEXT_PUBLIC_APP_URL`.
+Next.js pada template ini **tidak menyediakan Route Handlers atau API services internal** (`src/app/api`). Pengambilan data dilakukan langsung dari Server Components atau client services ke API backend eksternal menggunakan `API_BASE_URL` (di sisi server) atau `NEXT_PUBLIC_API_URL` (di sisi browser).
 
 ```text
 src/
@@ -121,7 +121,7 @@ src/
 
 - **Minimal Dependencies**: Jangan memasang library baru jika fungsionalitas tersebut dapat diselesaikan secara efisien menggunakan fitur bawaan Next.js, Node.js, atau pustaka inti yang sudah ada.
 - **Integritas Lockfile**: Jangan mengubah `pnpm-lock.yaml` secara manual. Selalu gunakan `pnpm install --frozen-lockfile` di lingkungan CI/CD.
-- **Docker Production**: Image container harus dibangun menggunakan multi-stage build dengan output `standalone` dan dieksekusi menggunakan user non-root (`nextjs`).
+- **Docker Production**: Image container dibangun berbasis Node.js 24 (`node:24-alpine`) menggunakan multi-stage build dengan output `standalone` dan dieksekusi menggunakan user non-root (`nextjs:nodejs`).
 
 ---
 

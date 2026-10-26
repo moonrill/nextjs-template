@@ -17,6 +17,15 @@ export interface RequestOptions extends RequestInit {
   schema?: z.ZodTypeAny;
 }
 
+export function getApiBaseUrl(): string {
+  if (typeof window === "undefined") {
+    return (
+      env.API_BASE_URL || env.NEXT_PUBLIC_API_URL || "http://localhost:4000"
+    );
+  }
+  return env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
+}
+
 export async function apiClient<T = unknown>(
   endpoint: string,
   options: RequestOptions = {}
@@ -26,11 +35,7 @@ export async function apiClient<T = unknown>(
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
-  const baseUrl =
-    typeof window === "undefined"
-      ? env.API_BASE_URL || "http://localhost:4000"
-      : process.env.NEXT_PUBLIC_API_URL || "";
-
+  const baseUrl = getApiBaseUrl();
   const url = endpoint.startsWith("http")
     ? endpoint
     : `${baseUrl.replace(/\/$/, "")}/${endpoint.replace(/^\//, "")}`;
@@ -46,14 +51,15 @@ export async function apiClient<T = unknown>(
       signal: controller.signal,
     });
 
-    clearTimeout(timeoutId);
-
     if (!response.ok) {
-      let errorData: unknown;
-      try {
-        errorData = await response.json();
-      } catch {
-        errorData = await response.text();
+      const rawText = await response.text();
+      let errorData: unknown = rawText;
+      if (rawText) {
+        try {
+          errorData = JSON.parse(rawText);
+        } catch {
+          // Keep rawText if response is plain text or HTML error
+        }
       }
       throw new ApiError(response.status, response.statusText, errorData);
     }
@@ -62,7 +68,17 @@ export async function apiClient<T = unknown>(
       return undefined as T;
     }
 
-    const data = await response.json();
+    const rawText = await response.text();
+    if (!rawText) {
+      return undefined as T;
+    }
+
+    let data: unknown;
+    try {
+      data = JSON.parse(rawText);
+    } catch {
+      data = rawText;
+    }
 
     if (schema) {
       return schema.parse(data) as T;
@@ -70,13 +86,17 @@ export async function apiClient<T = unknown>(
 
     return data as T;
   } catch (error) {
-    clearTimeout(timeoutId);
     if (error instanceof ApiError) {
       throw error;
     }
-    if (error instanceof Error && error.name === "AbortError") {
+    if (
+      (error instanceof Error && error.name === "AbortError") ||
+      controller.signal.aborted
+    ) {
       throw new ApiError(408, `Request timed out after ${timeoutMs}ms`);
     }
     throw error;
+  } finally {
+    clearTimeout(timeoutId);
   }
 }

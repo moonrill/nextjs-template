@@ -52,5 +52,9 @@
     "typescript": "^5",
     "vitest": "^5.0.5"
   },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
   "packageManager": "pnpm@12.15.0"
 }
