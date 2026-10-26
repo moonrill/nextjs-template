@@ -66,7 +66,7 @@ Starter template Next.js khusus frontend dengan **Profil Business** yang diranca
 
 ## Kebutuhan Sistem
 
-- **Node.js**: Versi `24.x` (Default yang digunakan di Docker & CI workflow, minimum `^20.x`)
+- **Node.js**: Versi `26.x` (Default yang digunakan di Docker & CI workflow, minimum `^20.x`)
 - **pnpm**: Versi `12.x` (atau aktifkan via Corepack: `corepack enable`)
 - **Docker**: Opsional (hanya jika menjalankan container lokal)
 
@@ -220,7 +220,7 @@ Header keamanan dikonfigurasi secara deklaratif di `next.config.ts`:
 
 ## Pengujian & CI Pipeline
 
-Workflow GitHub Actions (`.github/workflows/ci.yml`) menjalankan job pemeriksaan kualitas kode secara otomatis di runtime **Node.js 24**:
+Workflow GitHub Actions (`.github/workflows/ci.yml`) menjalankan job pemeriksaan kualitas kode secara otomatis di runtime **Node.js 26**:
 
 - **Format Check**: Memeriksa kerapian kode (`pnpm format:check`).
 - **Lint**: Analisis kode statis (`pnpm lint`).
@@ -255,7 +255,7 @@ pnpm start
 ### Build & Jalankan Docker Container
 
 ```bash
-# Membangun image container dengan Node 24 Alpine
+# Membangun image container dengan Node 26 Alpine
 docker build -t nextjs-starter:latest .
 
 # Menjalankan container di port 3000

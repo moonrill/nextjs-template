@@ -120,7 +120,7 @@ src/
 
 - **Minimal Dependencies**: Jangan memasang library baru jika fungsionalitas tersebut dapat diselesaikan secara efisien menggunakan fitur bawaan Next.js, Node.js, atau pustaka inti yang sudah ada.
 - **Integritas Lockfile**: Jangan mengubah `pnpm-lock.yaml` secara manual. Selalu gunakan `pnpm install --frozen-lockfile` di lingkungan CI/CD.
-- **Docker Production**: Image container dibangun berbasis Node.js 24 (`node:24-alpine`) menggunakan multi-stage build dengan output `standalone` dan dieksekusi menggunakan user non-root (`nextjs:nodejs`).
+- **Docker Production**: Image container dibangun berbasis Node.js 26 (`node:26-alpine`) menggunakan multi-stage build dengan output `standalone` dan dieksekusi menggunakan user non-root (`nextjs:nodejs`).
 
 ---
 
