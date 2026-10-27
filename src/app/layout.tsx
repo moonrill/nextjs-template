@@ -1,10 +1,17 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/shared/header";
 import { Footer } from "@/components/shared/footer";
 import { Providers } from "@/components/providers";
 import { JsonLd } from "@/components/shared/json-ld";
 import { constructMetadata } from "@/lib/seo";
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+});
 
 export const metadata: Metadata = constructMetadata();
 
@@ -14,7 +21,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id" className="h-full antialiased" suppressHydrationWarning>
+    <html
+      lang="id"
+      className={`h-full antialiased ${inter.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -34,7 +45,7 @@ export default function RootLayout({
         <JsonLd />
       </head>
       <body
-        className="flex min-h-full flex-col antialiased"
+        className={`${inter.className} font-sans flex min-h-full flex-col text-sm antialiased`}
         suppressHydrationWarning
       >
         <Providers>
