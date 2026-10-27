@@ -31,7 +31,7 @@ const STARTER_FEATURES: FeatureItem[] = [
     title: "API Client & Sonner Toasts",
     description:
       "Wrapper native fetch terpusat untuk integrasi backend dan notifikasi toast modern.",
-    category: "testing",
+    category: "integration",
     status: "ready",
   },
 ];

@@ -140,10 +140,10 @@ export default function ShowcaseApiPage() {
     }
   };
 
-  const apiClientCode = `import { apiClient } from "@/lib/api-client";
+  const apiClientCode = `import { apiClient, ApiError } from "@/lib/api-client";
 import { userListSchema } from "@/features/example/schemas";
 
-// Contoh pemanggilan API Client dengan Schema Validation
+// Contoh pemanggilan API Client dengan Schema Validation & Error Contract
 export async function fetchUsers() {
   try {
     const data = await apiClient("/users", {
@@ -154,7 +154,15 @@ export async function fetchUsers() {
     return data;
   } catch (error) {
     if (error instanceof ApiError) {
-      console.error(\`HTTP \${error.status}: \${error.message}\`);
+      if (error.isHttpError) {
+        console.error(\`HTTP \${error.status}: \${error.message}\`, error.data);
+      } else if (error.isTimeout) {
+        console.error("Permintaan timeout setelah 10 detik");
+      } else if (error.isValidationError) {
+        console.error("Data backend tidak memenuhi schema:", error.originalError);
+      } else if (error.isNetworkError) {
+        console.error("Gagal terhubung ke gateway backend:", error.message);
+      }
     }
     throw error;
   }

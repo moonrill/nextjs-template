@@ -38,7 +38,6 @@ export function ShowcaseHeader({
     if (pathname.includes("/components")) return "UI Components";
     if (pathname.includes("/api")) return "Data & API";
     if (pathname.includes("/forms")) return "Forms & Validation";
-    if (pathname.includes("/testing")) return "Testing Suites";
     if (pathname.includes("/developer-tools")) return "Developer Tools";
     return "Showcase";
   };

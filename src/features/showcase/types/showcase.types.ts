@@ -5,7 +5,6 @@ export type ShowcaseCategory =
   | "components"
   | "api"
   | "forms"
-  | "testing"
   | "developer-tools"
   | "architecture";
 

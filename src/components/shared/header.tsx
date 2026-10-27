@@ -60,12 +60,6 @@ export function Header() {
             Forms
           </Link>
           <Link
-            href="/showcase/testing"
-            className="hover:text-indigo-600 dark:hover:text-indigo-400 transition"
-          >
-            Testing
-          </Link>
-          <Link
             href="/showcase/developer-tools"
             className="hover:text-indigo-600 dark:hover:text-indigo-400 transition"
           >

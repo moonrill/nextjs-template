@@ -86,7 +86,7 @@ export function GlobalSearchModal({ isOpen, onClose }: GlobalSearchModalProps) {
               setQuery(e.target.value);
               setSelectedIndex(0);
             }}
-            placeholder="Cari fitur, komponen UI, API demo, form, atau testing..."
+            placeholder="Cari fitur, komponen UI, API demo, form, atau developer tools..."
             className="w-full bg-transparent text-sm text-zinc-900 placeholder-zinc-400 focus:outline-hidden dark:text-zinc-100 dark:placeholder-zinc-500"
           />
           {query && (

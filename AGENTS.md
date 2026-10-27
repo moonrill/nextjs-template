@@ -18,7 +18,7 @@ Dokumen ini adalah **sumber acuan utama (single source of truth)** untuk standar
 
 Template ini dirancang **khusus sebagai Frontend (Frontend-Only)**, bukan fullstack. Seluruh kebutuhan backend, database, dan business logic tingkat server dilayani oleh service backend eksternal (misalnya NestJS atau Go).
 
-Next.js pada template ini **tidak menyediakan Route Handlers atau API services internal** (`src/app/api`). Pengambilan data dilakukan langsung dari Server Components atau client services ke API backend eksternal menggunakan `API_BASE_URL` (di sisi server) atau `NEXT_PUBLIC_API_URL` (di sisi browser).
+Next.js pada template ini **tidak menyediakan Route Handlers atau API services internal** (`src/app/api`). Pengambilan data dilakukan langsung dari Server Components atau client services ke API backend eksternal menggunakan `NEXT_PUBLIC_API_URL` tunggal yang konsisten baik di sisi server maupun browser.
 
 ```text
 src/
@@ -31,7 +31,7 @@ src/
 │   ├── globals.css       # Tailwind CSS v4 styling dasar
 │   └── page.tsx          # Server Component halaman beranda
 ├── components/           # Komponen lintas fitur yang dapat digunakan bersama
-│   ├── ui/               # Komponen UI generik (Button, Badge, Card, dll.)
+│   ├── ui/               # Komponen UI generik (Button, Badge, Select, dll.)
 │   └── shared/           # Komponen layout bersama (Header, Footer, Navigation)
 ├── features/             # Modul domain independen berbasis fitur
 │   └── [feature-name]/   # Contoh: `example/`
@@ -40,13 +40,12 @@ src/
 │       ├── services/     # Logika pemanggilan data dari API backend eksternal
 │       ├── types/        # TypeScript types & interfaces khusus fitur
 │       └── index.ts      # Barrel export antarmuka publik modul
-├── lib/                  # Utilitas global dan konfigurasi infrastruktur
-│   ├── env.ts            # Validasi fail-fast environment variables (Zod)
-│   ├── logger.ts         # Structured JSON logger dengan sanitasi data sensitif
-│   └── utils.ts          # Helper murni (e.g. cn)
-└── test/                 # Konfigurasi pengujian bersama dan helper
-    ├── setup.ts          # Setup file Vitest & Testing Library matchers
-    └── helpers/          # Custom renderers dan mock fixtures
+└── lib/                  # Utilitas global dan konfigurasi infrastruktur
+    ├── api-client.ts     # Resilient native fetch client & ApiError contract
+    ├── env.ts            # Validasi fail-fast environment variables tunggal (Zod)
+    ├── logger.ts         # Structured JSON logger dengan sanitasi data sensitif
+    ├── seo.ts            # Metadata generator SEO & OpenGraph
+    └── utils.ts          # Helper murni (e.g. cn)
 ```
 
 ### Aturan Aliran Dependensi:
@@ -93,7 +92,7 @@ src/
 - **Validasi di Batas Sistem**: Semua input eksternal (Environment Variables, URL parameters, query search, request bodies) **wajib divalidasi dengan Zod** sebelum diproses oleh domain logic.
 - **Pengelolaan Form**: Gunakan **React Hook Form** bersama **Zod Resolver** (`@hookform/resolvers/zod`) untuk mengelola form input, error validation, dan submit handler secara deklaratif dan type-safe.
 - **Client & Server State**: Gunakan **TanStack Query** (`@tanstack/react-query`) untuk mengelola data fetching, caching, background refetching, dan optimasi mutations di sisi client.
-- **Komunikasi Backend**: Gunakan wrapper `apiClient` (`src/lib/api-client.ts`) berbasis native `fetch` untuk seluruh pemanggilan HTTP upstream ke NestJS/Go. Mengatur base URL, timeout, error parsing, dan validasi schema Zod secara otomatis.
+- **Komunikasi Backend**: Gunakan wrapper `apiClient` (`src/lib/api-client.ts`) berbasis native `fetch` untuk seluruh pemanggilan HTTP upstream ke NestJS/Go. Menggunakan single-read body stream aman, full lifecycle timeout, dan kontrak `ApiError` terpadu (`kind`: `HTTP_ERROR`, `TIMEOUT`, `NETWORK_ERROR`, `ABORTED`, `SCHEMA_VALIDATION`).
 - **Notifikasi Toast**: Gunakan **Sonner** (`toast.success()`, `toast.error()`) untuk memberikan umpan balik aksi pengguna.
 - **Fail-Fast Environment**: Aplikasi harus menolak booting jika environment variable wajib tidak valid atau hilang (`src/lib/env.ts`).
 - **Penyembunyian Detail Internal**: Pesan error yang diekspos ke client/user harus bersifat umum dan aman. Dilarang menampilkan stack trace, kredensial, atau detail query database ke antarmuka pengguna production.
@@ -104,15 +103,19 @@ src/
 ## 6. Keamanan Baseline (Security Baseline)
 
 - **Pemilahan Environment**: Nilai sensitif (DB password, private API keys) dilarang menggunakan prefiks `NEXT_PUBLIC_`.
-- **Security Headers**: Header keamanan (`X-Frame-Options`, `Strict-Transport-Security`, `X-Content-Type-Options`, `Permissions-Policy`) dikonfigurasi secara deklaratif di `next.config.ts`.
+- **Security Headers**: Header keamanan (`X-Frame-Options: DENY`, `Strict-Transport-Security` dengan preload, `X-Content-Type-Options: nosniff`, `Permissions-Policy`, `Content-Security-Policy`, `poweredByHeader: false`) dikonfigurasi secara deklaratif di `next.config.ts`.
 - **Sanitasi Output**: Hindari penggunaan `dangerouslySetInnerHTML` kecuali telah dibersihkan secara eksplisit melalui parser sanitizer yang teruji.
 
 ---
 
-## 7. Strategi Pengujian (Testing Strategy)
+## 7. Verifikasi Kualitas Kode (Quality Assurance)
 
-- **Unit Testing (Vitest)**: Uji logika murni, utilitas (`src/lib/`), schema Zod, dan method services secara terisolasi.
-- **Component Testing (React Testing Library)**: Uji perilaku UI berdasarkan apa yang dialami pengguna (accessible role, text content), hindari menguji implementasi internal (state internals).
+- **Static Verification**: Kualitas kode dijaga melalui pipeline statis:
+  - Format checking dengan **Prettier** (`pnpm format:check`).
+  - Linting statis dengan **ESLint 9** (`pnpm lint`).
+  - Strict type checking dengan **TypeScript** (`pnpm typecheck`).
+  - Verifikasi sekaligus melalui `pnpm check`.
+- **Automated Testing Policy**: Automated unit/component test suites saat ini ditiadakan demi menjaga kesederhanaan dan stabilitas fondasi template. Kode dipastikan aman melalui type safety ketat, schema boundary Zod, dan fail-fast environment.
 
 ---
 

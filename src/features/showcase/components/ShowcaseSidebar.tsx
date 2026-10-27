@@ -7,7 +7,6 @@ import {
   Component,
   Database,
   CheckSquare,
-  FlaskConical,
   Wrench,
   ExternalLink,
   ChevronRight,
@@ -43,12 +42,6 @@ export const SHOWCASE_NAV_ITEMS = [
     href: "/showcase/forms",
     icon: CheckSquare,
     count: SHOWCASE_CATALOG.filter((i) => i.category === "forms").length,
-  },
-  {
-    title: "Testing Suites",
-    href: "/showcase/testing",
-    icon: FlaskConical,
-    count: SHOWCASE_CATALOG.filter((i) => i.category === "testing").length,
   },
   {
     title: "Developer Tools",

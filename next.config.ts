@@ -10,7 +10,7 @@ const cspHeader = `
   base-uri 'self';
   form-action 'self';
   frame-ancestors 'none';
-  connect-src 'self' http://localhost:* https:;
+  connect-src 'self' http://localhost:* https: ws: wss:;
 `
   .replace(/\s{2,}/g, " ")
   .trim();
@@ -26,7 +26,7 @@ const securityHeaders = [
   },
   {
     key: "Strict-Transport-Security",
-    value: "max-age=31536000; includeSubDomains",
+    value: "max-age=31536000; includeSubDomains; preload",
   },
   {
     key: "X-Frame-Options",
@@ -42,12 +42,14 @@ const securityHeaders = [
   },
   {
     key: "Permissions-Policy",
-    value: "camera=(), microphone=(), geolocation=(), browsing-topics=()",
+    value: "camera=(), microphone=(), geolocation=()",
   },
 ];
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  poweredByHeader: false,
+  reactStrictMode: true,
   turbopack: {
     rules: {
       "*.css": {

@@ -174,10 +174,10 @@ export default function ShowcaseOverviewPage() {
             sparklineVariant="cta"
           />
           <MetricCard
-            title="Automated Testing"
-            value="Vitest v5"
-            change="22 Passed"
-            description="Unit test Vitest, React Testing Library, dan spesifikasi Playwright."
+            title="Security & Resilience"
+            value="HSTS + CSP"
+            change="Hardened"
+            description="Security headers, safe single-read body streaming, dan ApiError contract."
             iconName="trending"
             sparklineVariant="primary"
           />

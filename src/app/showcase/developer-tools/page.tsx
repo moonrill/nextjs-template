@@ -20,15 +20,6 @@ export default function ShowcaseDevToolsPage() {
       example: "development",
     },
     {
-      name: "API_BASE_URL",
-      type: "string (url)",
-      required: true,
-      scope: "Server",
-      description:
-        "URL upstream service backend NestJS atau Go untuk pemanggilan server-side.",
-      example: "http://localhost:4000",
-    },
-    {
       name: "NEXT_PUBLIC_APP_URL",
       type: "string (url)",
       required: true,
@@ -43,7 +34,7 @@ export default function ShowcaseDevToolsPage() {
       required: true,
       scope: "Browser & Server",
       description:
-        "URL gateway backend untuk pemanggilan request client di sisi browser.",
+        "URL backend API tunggal untuk seluruh pemanggilan request, baik di sisi server maupun browser.",
       example: "http://localhost:4000",
     },
   ];
@@ -311,12 +302,8 @@ CMD ["node", "server.js"]`;
               4. Strict Typecheck
             </div>
             <ArrowRight className="h-4 w-4 text-zinc-400" />
-            <div className="rounded-xl bg-indigo-50 px-3.5 py-2 font-medium text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-300">
-              5. Vitest Suite
-            </div>
-            <ArrowRight className="h-4 w-4 text-zinc-400" />
             <div className="rounded-xl bg-emerald-50 px-3.5 py-2 font-medium text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
-              6. Standalone Build
+              5. Standalone Build
             </div>
           </div>
         </div>
